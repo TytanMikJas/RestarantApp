@@ -5,13 +5,15 @@ import { join } from 'path';
 import { ServeStaticModule } from '@nestjs/serve-static';
 
 @Module({
-  imports: [OrderModule,
+  imports: [
+    OrderModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '../../'),
       renderPath: '/public',
     }),
-     MenuModule],
-    
+    MenuModule,
+  ],
+
   providers: [],
 })
 export class AppModule {}
