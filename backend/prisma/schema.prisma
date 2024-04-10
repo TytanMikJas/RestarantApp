@@ -53,6 +53,7 @@ enum Status {
   PLACED
   IN_PROGRESS
   DELIVERED
+  ARCHIVED
 }
 
 enum Category {
