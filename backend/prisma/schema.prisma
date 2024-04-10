@@ -22,13 +22,12 @@ model Order {
 }
 
 model MenuItem {
-  id          Int         @id @default(autoincrement())
+  id          Int          @id @default(autoincrement())
   name        String
   description String
   alergens    String[]
   price       Float
-  images      String[]
-  video       String
+  attachments Attachment[]
   category    Category
   orderItems  OrderItem[]
 }
@@ -40,6 +39,14 @@ model OrderItem {
   quantity   Int
   order      Order    @relation(fields: [orderId], references: [id])
   menuItem   MenuItem @relation(fields: [menuItemId], references: [id])
+}
+
+model Attachment {
+  id         Int      @id @default(autoincrement())
+  menuItemId Int
+  fileName   String
+  fileType   FileType
+  menuItem   MenuItem @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
 }
 
 enum Status {
@@ -54,4 +61,9 @@ enum Category {
   DESSERT
   DRINKS
   ADDITIONALS
+}
+
+enum FileType {
+  IMAGE
+  VIDEO
 }

@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
 import MenuService from './menu.service';
-import MenuGateway from './menu.gateway';
 import MenuRepository from './menu.repository';
+import MenuController from './menu.controller';
 
 @Module({
-  providers: [MenuGateway, MenuService, MenuRepository],
+  providers: [MenuService, MenuRepository],
+  controllers: [MenuController],
   exports: [MenuService],
 })
 export default class MenuModule {}
