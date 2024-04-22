@@ -1,4 +1,4 @@
-package com.example.androidapp
+package com.example.androidapp.initPage
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,10 +20,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.androidapp.R
+import com.example.androidapp.Utils.Nav
 import com.example.androidapp.ui.theme.AndroidAppTheme
 
 @Composable
-fun WaiterHome(navController: NavController) {
+fun ClientSetup(navController: NavController) {
     val context = LocalContext.current
 
 
@@ -45,11 +47,21 @@ fun WaiterHome(navController: NavController) {
             color = MaterialTheme.colorScheme.onSecondaryContainer
         )
         Text(
-            text = "Kelner",
+            text = "Klient",
             modifier = Modifier
                 .fillMaxWidth(),
             textAlign = TextAlign.Center,
         )
+        Button(
+            onClick = {
+                navController.popBackStack()
+                navController.navigate(Nav.ClientHome.route) {
+                    launchSingleTop = true
+                }
+            }
+        ) {
+            Text(text = "Zatwierdź ID")
+        }
     }
 
 }
@@ -57,8 +69,8 @@ fun WaiterHome(navController: NavController) {
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewWaiterHome(){
+fun PreviewClientSetup(){
     AndroidAppTheme {
-        WaiterHome(rememberNavController())
+        ClientSetup(rememberNavController())
     }
 }

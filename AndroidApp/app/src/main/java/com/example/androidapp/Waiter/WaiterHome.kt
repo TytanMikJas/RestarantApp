@@ -1,11 +1,10 @@
-package com.example.androidapp
+package com.example.androidapp.Waiter
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,10 +19,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.androidapp.R
 import com.example.androidapp.ui.theme.AndroidAppTheme
 
 @Composable
-fun ClientSetup(navController: NavController) {
+fun WaiterHome(navController: NavController) {
     val context = LocalContext.current
 
 
@@ -45,21 +45,11 @@ fun ClientSetup(navController: NavController) {
             color = MaterialTheme.colorScheme.onSecondaryContainer
         )
         Text(
-            text = "Klient",
+            text = "Kelner",
             modifier = Modifier
                 .fillMaxWidth(),
             textAlign = TextAlign.Center,
         )
-        Button(
-            onClick = {
-                navController.popBackStack()
-                navController.navigate(Nav.ClientHome.route) {
-                    launchSingleTop = true
-                }
-            }
-        ) {
-            Text(text = "Zatwierdź ID")
-        }
     }
 
 }
@@ -67,8 +57,8 @@ fun ClientSetup(navController: NavController) {
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewClientSetup(){
+fun PreviewWaiterHome(){
     AndroidAppTheme {
-        ClientSetup(rememberNavController())
+        WaiterHome(rememberNavController())
     }
 }

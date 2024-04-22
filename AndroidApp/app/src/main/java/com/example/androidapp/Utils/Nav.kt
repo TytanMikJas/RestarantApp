@@ -1,4 +1,4 @@
-package com.example.androidapp
+package com.example.androidapp.Utils
 
 sealed class Nav(val route: String) {
     data object Home : Nav("home")

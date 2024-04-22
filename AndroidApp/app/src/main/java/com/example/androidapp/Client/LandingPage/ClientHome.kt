@@ -1,11 +1,11 @@
-package com.example.androidapp
+package com.example.androidapp.Client.LandingPage
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,13 +19,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.NavDeepLinkRequest
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.rememberNavController
+import com.example.androidapp.R
 import com.example.androidapp.ui.theme.AndroidAppTheme
 
 @Composable
-fun Home(navController: NavController) {
+fun ClientHome(navController: NavController) {
     val context = LocalContext.current
 
 
@@ -46,30 +45,24 @@ fun Home(navController: NavController) {
             fontFamily = FontFamily.Serif,
             color = MaterialTheme.colorScheme.onSecondaryContainer
         )
-        Button(
-            onClick = {
-                navController.navigate(Nav.Client.route) {
-                    // Specify nav options to prevent going back
-                    launchSingleTop = true
-                }
-            }
-        ) {
-            Text(text = "Klient")
-        }
-        Button(
-            onClick = { navController.navigate(Nav.Waiter.route)}
-        ) {
-            Text(text = "Kelner")
-        }
+        Text(
+            text = "Klient",
+            modifier = Modifier
+                .fillMaxWidth(),
+            textAlign = TextAlign.Center,
+        )
     }
 
+    BackHandler {
+
+    }
 }
 
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewHome(){
+fun PreviewClientHome(){
     AndroidAppTheme {
-        Home(rememberNavController())
+        ClientHome(rememberNavController())
     }
 }

@@ -28,6 +28,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
+import com.example.androidapp.Client.LandingPage.ClientHome
+import com.example.androidapp.Utils.Nav
+import com.example.androidapp.Waiter.WaiterHome
+import com.example.androidapp.initPage.ClientSetup
+import com.example.androidapp.initPage.Home
 import com.example.androidapp.ui.theme.AndroidAppTheme
 
 class MainActivity : ComponentActivity() {

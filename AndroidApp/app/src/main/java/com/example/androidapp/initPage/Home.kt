@@ -1,17 +1,16 @@
-package com.example.androidapp
+package com.example.androidapp.initPage
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -21,10 +20,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.androidapp.R
+import com.example.androidapp.Utils.Nav
 import com.example.androidapp.ui.theme.AndroidAppTheme
 
 @Composable
-fun ClientHome(navController: NavController) {
+fun Home(navController: NavController) {
     val context = LocalContext.current
 
 
@@ -45,24 +46,30 @@ fun ClientHome(navController: NavController) {
             fontFamily = FontFamily.Serif,
             color = MaterialTheme.colorScheme.onSecondaryContainer
         )
-        Text(
-            text = "Klient",
-            modifier = Modifier
-                .fillMaxWidth(),
-            textAlign = TextAlign.Center,
-        )
+        Button(
+            onClick = {
+                navController.navigate(Nav.Client.route) {
+                    // Specify nav options to prevent going back
+                    launchSingleTop = true
+                }
+            }
+        ) {
+            Text(text = "Klient")
+        }
+        Button(
+            onClick = { navController.navigate(Nav.Waiter.route)}
+        ) {
+            Text(text = "Kelner")
+        }
     }
 
-    BackHandler {
-
-    }
 }
 
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewClientHome(){
+fun PreviewHome(){
     AndroidAppTheme {
-        ClientHome(rememberNavController())
+        Home(rememberNavController())
     }
 }
