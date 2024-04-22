@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import MenuRepository from './menu.repository';
+import { MenuDto } from './dto/menu.dto';
 
 Injectable();
 export default class MenuService {
@@ -7,7 +8,7 @@ export default class MenuService {
     this.menuRepository = menuRepository;
   }
 
-  async getAll() {
+  async getAll(): Promise<MenuDto[]> {
     return await this.menuRepository.getAll();
   }
 }

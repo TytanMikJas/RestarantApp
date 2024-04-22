@@ -7,6 +7,7 @@ import { Status } from '@prisma/client';
 @Injectable()
 export default class OrderService {
   constructor(private readonly orderRepository: OrderRepository) {}
+
   async nextOrderStatus(orderId: number): Promise<OrderDto> {
     const order = await this.orderRepository.getOrderById(orderId);
     const nextOrderStatus = this.nextStatus(order.status);
@@ -14,18 +15,18 @@ export default class OrderService {
   }
 
   async createOrder(data: CreateOrderDto, userId: any): Promise<OrderDto> {
-    throw new Error('Method not implemented.');
+    return await this.orderRepository.createOrder(data, userId);
   }
 
   async getLatestOrder(userId: any): Promise<OrderDto> {
-    throw new Error('Method not implemented.');
+    return await this.orderRepository.getLatestOrder(userId);
   }
 
-  async getOrders(): Promise<OrderDto> {
-    throw new Error('Method not implemented.');
+  async getOrders(): Promise<OrderDto[]> {
+    return await this.orderRepository.getOrders();
   }
 
-  nextStatus(currentStatus: string): string {
+  nextStatus(currentStatus: string): Status {
     switch (currentStatus) {
       case Status.PLACED:
         return Status.IN_PROGRESS;
