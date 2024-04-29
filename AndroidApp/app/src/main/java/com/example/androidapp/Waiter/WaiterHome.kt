@@ -34,17 +34,6 @@ fun WaiterHome(navController: NavController) {
         verticalArrangement = Arrangement.Top
     ) {
         Text(
-            text = stringResource(id = R.string.restaurant_banner),
-            modifier = Modifier
-                .fillMaxWidth(),
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.headlineLarge,
-            fontSize = 50.sp,
-            fontWeight = FontWeight.ExtraBold,
-            fontFamily = FontFamily.Serif,
-            color = MaterialTheme.colorScheme.onSecondaryContainer
-        )
-        Text(
             text = "Kelner",
             modifier = Modifier
                 .fillMaxWidth(),
