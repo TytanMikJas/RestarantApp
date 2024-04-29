@@ -31,7 +31,6 @@ import androidx.navigation.navigation
 import com.example.androidapp.Client.LandingPage.ClientHome
 import com.example.androidapp.Utils.Nav
 import com.example.androidapp.Waiter.WaiterHome
-import com.example.androidapp.initPage.ClientSetup
 import com.example.androidapp.initPage.Home
 import com.example.androidapp.ui.theme.AndroidAppTheme
 
@@ -101,12 +100,9 @@ fun AppNavigation(modifier: Modifier, navController: NavHostController) {
                 Home(navController)
             }
             navigation(
-                startDestination = Nav.ClientSetup.route,
+                startDestination = Nav.ClientHome.route,
                 route = Nav.Client.route
             ) {
-                composable(Nav.ClientSetup.route) {
-                    ClientSetup(navController)
-                }
                 composable(Nav.ClientHome.route) {
                     ClientHome(navController)
                 }
