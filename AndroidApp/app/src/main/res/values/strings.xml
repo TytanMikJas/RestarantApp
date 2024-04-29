@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">AndroidApp</string>
     <string name="restaurant_banner">Pod Polakiem</string>
+    <string name="image_slider_description">Zdjęcie potrawy</string>
 </resources>
