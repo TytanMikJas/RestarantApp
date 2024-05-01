@@ -19,12 +19,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.androidapp.ui.theme.AndroidAppTheme
 
 @Composable
-fun ItemCard(menuItem: MenuItemDto) {
+fun ItemCard(menuItem: MenuItemDto, navController: NavController) {
     Card(
         modifier = Modifier.padding(8.dp).fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
@@ -41,6 +43,7 @@ fun ItemCard(menuItem: MenuItemDto) {
             )
             Spacer(modifier = Modifier.width(8.dp))
             Column {
+                Spacer(modifier = Modifier.height(2.dp))
                 Text(
                     text = menuItem.name,
                     style = MaterialTheme.typography.titleMedium,
@@ -76,6 +79,6 @@ fun PreviewItemCard() {
         "LUNCH"
     )
     AndroidAppTheme {
-        ItemCard(menuItemDtoExample)
+        ItemCard(menuItemDtoExample, rememberNavController())
     }
 }
