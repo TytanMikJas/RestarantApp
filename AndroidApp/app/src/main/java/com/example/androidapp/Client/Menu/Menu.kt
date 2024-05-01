@@ -10,6 +10,7 @@ import com.example.androidapp.ui.theme.AndroidAppTheme
 fun Menu(navController: NavController){
 
 
+
 }
 
 @Preview(showBackground = true)
