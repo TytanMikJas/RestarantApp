@@ -2,4 +2,9 @@
     <string name="app_name">AndroidApp</string>
     <string name="restaurant_banner">Pod Polakiem</string>
     <string name="image_slider_description">Zdjęcie potrawy</string>
+    <string name="BREAKFAST">Śniadanie</string>
+    <string name="LUNCH">Obiad</string>
+    <string name="DESERT">Deser</string>
+    <string name="DRINKS">Napój</string>
+    <string name="ADDITIONALS">Dodatek</string>
 </resources>
