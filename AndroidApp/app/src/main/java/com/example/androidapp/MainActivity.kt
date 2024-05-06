@@ -1,6 +1,7 @@
 package com.example.androidapp
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,13 +34,42 @@ import com.example.androidapp.Client.Menu.MenuItemDto
 import com.example.androidapp.Client.MenuItem.MenuItem
 import com.example.androidapp.Utils.Nav
 import com.example.androidapp.Waiter.WaiterHome
+import com.example.androidapp.api.dto.CreateOrderDto
+import com.example.androidapp.api.dto.CreateOrderItemDto
+import com.example.androidapp.api.dto.IOService
+import com.example.androidapp.api.dto.RetrofitInstance
+import com.example.androidapp.api.dto.RetrofitInstance.api
 import com.example.androidapp.initPage.Home
 import com.example.androidapp.ui.theme.AndroidAppTheme
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlin.coroutines.coroutineContext
 
 class MainActivity : ComponentActivity() {
 
+    @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val apiService = RetrofitInstance.api
+        GlobalScope.launch {
+             val response = apiService.getMenu()
+            Log.d("Main", response.toString())
+            }
+        val ioClient = IOService(null)
+        ioClient.connect()
+
+        Thread.sleep(2000);
+        ioClient.createOrder(CreateOrderDto(listOf(
+            CreateOrderItemDto(1, 1),
+            CreateOrderItemDto(2, 2),
+            CreateOrderItemDto(3, 3)
+        )))
+
+
+
+
 
         setContent {
             AndroidAppTheme(darkTheme = false) {
