@@ -30,6 +30,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import com.example.androidapp.Client.LandingPage.ClientHome
+import com.example.androidapp.Client.Menu.Menu
 import com.example.androidapp.Utils.Nav
 import com.example.androidapp.Waiter.WaiterHome
 import com.example.androidapp.api.dto.CreateOrderDto
@@ -134,7 +135,7 @@ fun AppNavigation(modifier: Modifier, navController: NavHostController) {
                 route = Nav.Client.route
             ) {
                 composable(Nav.ClientHome.route) {
-                    ClientHome(navController)
+                    Menu(navController)
                 }
             }
             navigation(
