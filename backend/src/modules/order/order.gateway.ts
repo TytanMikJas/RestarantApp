@@ -29,13 +29,14 @@ export default class OrderGateway
 
   async handleConnection(client: any) {
     const userId = client.handshake.auth.userId;
+    console.log(userId);
     if (!userId) {
       client.join(this.WAITER_ROOM);
       const orders = this.orderService.getOrders();
       this.server.to(this.WAITER_ROOM).emit('connectedWaiter', orders);
     } else {
       client.join(userId);
-      const order = this.orderService.getLatestOrder(userId);
+      const order = await this.orderService.getLatestOrder(Number(userId));
       if (order) {
         this.server.to(userId).emit('onNextOrderStatusClient', order);
       } else {
@@ -54,7 +55,7 @@ export default class OrderGateway
     @MessageBody() data: CreateOrderDto,
   ) {
     const userId = client.handshake.auth.userId;
-    const order = await this.orderService.createOrder(data, userId);
+    const order = await this.orderService.createOrder(data, Number(userId));
     this.server.to(userId).emit('onCreateOrderClient', order);
     this.server.to(this.WAITER_ROOM).emit('onCreateOrderWaiter', order);
   }

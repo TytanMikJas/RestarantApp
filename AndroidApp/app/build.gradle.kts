@@ -69,4 +69,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.gson.converter)
+    implementation ("io.socket:socket.io-client:2.1.0") {
+
+    }
+
 }

@@ -39,7 +39,10 @@ export default class OrderRepository {
         tableId: userId,
         status: Status.PLACED,
         items: {
-          connect: data.items.map((item) => ({ id: item.id })),
+          create: data.items.map((item) => ({
+            quantity: item.quantity,
+            menuItem: { connect: { id: item.id } },
+          })),
         },
       },
       include: {

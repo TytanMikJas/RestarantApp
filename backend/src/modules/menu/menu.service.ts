@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import MenuRepository from './menu.repository';
 import { MenuDto } from './dto/menu.dto';
 
-Injectable();
+@Injectable()
 export default class MenuService {
   constructor(private readonly menuRepository: MenuRepository) {
     this.menuRepository = menuRepository;
