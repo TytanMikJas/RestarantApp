@@ -11,6 +11,6 @@ async function bootstrap() {
     optionsSuccessStatus: 204,
   });
 
-  await app.listen(3000, '0.0.0.0');
+  await app.listen(30437, '0.0.0.0');
 }
 bootstrap();

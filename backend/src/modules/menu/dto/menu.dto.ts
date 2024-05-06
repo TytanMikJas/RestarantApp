@@ -7,6 +7,6 @@ export interface MenuDto {
   alergens: string[];
   price: number;
   category: $Enums.Category;
-  video: string;
+  video?: string;
   images: string[];
 }

@@ -14,7 +14,7 @@ export default class MenuRepository {
       include: { attachments: true },
     });
 
-    const attachments = menuItems.map((item) => item.attachments);
+    
 
     return menuItems.map((item, index) => ({
       id: item.id,
@@ -23,10 +23,10 @@ export default class MenuRepository {
       alergens: item.alergens,
       price: item.price,
       category: item.category,
-      video: attachments[index].find(
+      video: item.attachments.find(
         (attachment) => attachment.fileType === FileType.VIDEO,
-      ).fileName,
-      images: attachments[index]
+      )?.fileName,
+      images: item.attachments
         .filter((attachment) => attachment.fileType === FileType.IMAGE)
         .map((attachment) => attachment.fileName),
     }));
