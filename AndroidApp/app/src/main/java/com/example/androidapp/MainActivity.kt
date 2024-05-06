@@ -29,6 +29,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import com.example.androidapp.Client.LandingPage.ClientHome
+import com.example.androidapp.Client.Menu.MenuItemDto
+import com.example.androidapp.Client.MenuItem.MenuItem
 import com.example.androidapp.Utils.Nav
 import com.example.androidapp.Waiter.WaiterHome
 import com.example.androidapp.initPage.Home
@@ -105,6 +107,17 @@ fun AppNavigation(modifier: Modifier, navController: NavHostController) {
             ) {
                 composable(Nav.ClientHome.route) {
                     ClientHome(navController)
+                }
+                composable(Nav.MenuItem.route) {
+                    MenuItem(menuItem = MenuItemDto(
+                        3,
+                        "Kotlet schabowy",
+                        "Kotlet schabowy z ziemniakami i surówką",
+                        listOf("gluten"),
+                        18.50f,
+                        listOf("https://staticsmaker.iplsc.com/smaker_prod_2019_03_09/fa3c2e12df66513037181b9a3e32181a-lg.jpg", "https://staticsmaker.iplsc.com/smaker_prod_2019_03_09/fa3c2e12df66513037181b9a3e32181a-lg.jpg"),
+                        "https://example.com/video.mp4",
+                        "LUNCH"))
                 }
             }
             navigation(

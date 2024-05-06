@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,6 +23,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.androidapp.R
 import com.example.androidapp.ui.theme.AndroidAppTheme
+import com.example.androidapp.Utils.Nav
 
 @Composable
 fun ClientHome(navController: NavController) {
@@ -51,6 +53,9 @@ fun ClientHome(navController: NavController) {
                 .fillMaxWidth(),
             textAlign = TextAlign.Center,
         )
+        Button(onClick = { navController.navigate(Nav.MenuItem.route)}) {
+            
+        }
     }
 
     BackHandler {
