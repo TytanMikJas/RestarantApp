@@ -1,9 +1,7 @@
 package com.example.androidapp.api.dto
 
-import com.example.androidapp.Client.Menu.MenuItemDto
-
 data class OrderItemDto (
     val id: Int,
-    val menuItem: MenuItemDto,
+    val menuItem: MenuDto,
     val quantity: Int
 )
