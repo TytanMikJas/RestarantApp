@@ -76,7 +76,7 @@ fun Waiting(navController: NavController){
             listOf("https://www.winiary.pl/sites/default/files/styles/recipe/public/recipe/2020-07/schabowy_z_ziemniaczkami_1.jpg?itok=3Z6Z9Q8v")
         ), 3)
     )
-    val calculatedTime = 600000L //podane w milisekundach
+    val calculatedTime = 600000L
 
 
     Column (modifier = Modifier
