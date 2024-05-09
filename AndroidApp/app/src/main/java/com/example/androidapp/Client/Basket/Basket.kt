@@ -1,17 +1,13 @@
 package com.example.androidapp.Client.Basket
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -101,48 +97,7 @@ fun Basket(navController: NavController) {
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        LazyColumn {
-            items(sampleData) { item ->
-                Row {
-                    Text(
-                        text = "${item.quantity} x ${item.menuItem.name}",
-                        modifier = Modifier.weight(1f),
-                        style = TextStyle(
-                            fontSize = 20.sp
-                        )
-                    )
-                    Text(
-                        text = "${String.format("%.2f", item.menuItem.price * item.quantity)}zł",
-                        style = TextStyle(
-                            fontWeight = FontWeight.Light,
-                            fontSize = 20.sp
-                        )
-                    )
-                }
-                Spacer(modifier = Modifier.height(14.dp))
-            }
-        }
-
-        val total = sampleData.fold(0.0) { acc, item ->
-            acc + item.quantity * item.menuItem.price
-        }
-
-
-        Divider()
-        Spacer(modifier = Modifier.height(14.dp))
-
-        Row(){
-            Text(text = "Razem:",
-                modifier = Modifier.weight(1f),
-                style = TextStyle(
-                    fontSize = 20.sp
-                ))
-
-            Text(text = "$total zł",
-                style = TextStyle(
-                fontSize = 20.sp
-            ))
-        }
+        BasketItems(items = sampleData)
 
         Spacer(modifier = Modifier.weight(1f))
 
