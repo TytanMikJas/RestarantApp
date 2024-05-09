@@ -23,10 +23,12 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.androidapp.api.dto.Category
+import com.example.androidapp.api.dto.MenuDto
 import com.example.androidapp.ui.theme.AndroidAppTheme
 
 @Composable
-fun ItemCard(menuItem: MenuItemDto, navController: NavController) {
+fun ItemCard(menuItem: MenuDto, navController: NavController) {
     Card(
         modifier = Modifier.padding(8.dp).fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
@@ -68,15 +70,15 @@ fun ItemCard(menuItem: MenuItemDto, navController: NavController) {
 @Preview(showBackground = true)
 @Composable
 fun PreviewItemCard() {
-    val menuItemDtoExample = MenuItemDto(
+    val menuItemDtoExample = MenuDto(
         1,
         "Schabowy z ziemniaczkami",
         "Klasa sama w sobie, pyszne danie łączące tradycję z nowoczesnością",
         listOf("gluten"),
-        21.20f,
-        listOf("https://staticsmaker.iplsc.com/smaker_prod_2019_03_09/fa3c2e12df66513037181b9a3e32181a-lg.jpg"),
-        "https://example.com/video.mp4",
-        "LUNCH"
+        21.20,
+        Category.BREAKFAST,
+        "https://www.winiary.pl/sites/default/files/styles/recipe/public/recipe/2020-07/schabowy_z_ziemniaczkami_1.jpg?itok=3Z6Z9Q8v",
+        listOf("https://www.winiary.pl/sites/default/files/styles/recipe/public/recipe/2020-07/schabowy_z_ziemniaczkami_1.jpg?itok=3Z6Z9Q8v")
     )
     AndroidAppTheme {
         ItemCard(menuItemDtoExample, rememberNavController())
