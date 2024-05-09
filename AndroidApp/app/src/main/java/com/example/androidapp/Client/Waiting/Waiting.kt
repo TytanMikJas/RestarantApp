@@ -78,6 +78,7 @@ fun Waiting(navController: NavController){
     )
     val calculatedTime = 600000L //podane w milisekundach
 
+
     Column (modifier = Modifier
         .fillMaxHeight()
         .padding(16.dp)){
