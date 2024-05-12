@@ -27,7 +27,7 @@ import okhttp3.internal.notifyAll
 @Composable
 fun MenuItem(menuItem: MenuDto) {
     Box(modifier = Modifier.fillMaxSize()
-        .padding(horizontal = 8.dp)
+        .padding(vertical = 10.dp, horizontal = 8.dp)
         .verticalScroll(rememberScrollState())) {
         Column(
             modifier = Modifier
@@ -62,12 +62,13 @@ fun MenuItem(menuItem: MenuDto) {
             modifier = Modifier
                 .padding(16.dp)
                 .align(Alignment.BottomEnd)
-                .border(2.dp, color = MaterialTheme.colorScheme.primary, addButtonShape)
+                .border(2.dp, color = MaterialTheme.colorScheme.tertiary, addButtonShape)
                 .clip(addButtonShape)
         ) {
             Text(
                 modifier = Modifier.padding(horizontal = 20.dp),
-                text = "Dodaj do zamówienia"
+                text = "Dodaj do zamówienia",
+                color = MaterialTheme.colorScheme.tertiary
             )
 
         }

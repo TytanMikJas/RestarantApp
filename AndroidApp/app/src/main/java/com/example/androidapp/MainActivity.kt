@@ -8,20 +8,27 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -29,9 +36,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
+import com.example.androidapp.Client.LandingPage.LandingPage
 import com.example.androidapp.Client.Menu.Menu
 import com.example.androidapp.Client.MenuItem.MenuItem
 import com.example.androidapp.Utils.Nav
+import com.example.androidapp.Utils.SatisfyText
+import com.example.androidapp.Utils.routeToTitle
 import com.example.androidapp.Waiter.WaiterHome
 import com.example.androidapp.api.dto.Category
 import com.example.androidapp.api.dto.CreateOrderDto
@@ -66,10 +76,6 @@ class MainActivity : ComponentActivity() {
             CreateOrderItemDto(3, 3)
         )))
 
-
-
-
-
         setContent {
             AndroidAppTheme(darkTheme = false) {
                 val navController = rememberNavController()
@@ -85,7 +91,7 @@ fun NavigationItem(
     label: String, route: String, navController: NavController) {
     NavigationDrawerItem(
         modifier = Modifier.padding(10.dp),
-        label = { Text(text = label) },
+        label = { },
         selected = false,
         onClick = {
             navController.navigate(route) {
@@ -102,10 +108,33 @@ fun NavigationItem(
 @Composable
 fun App(navController: NavHostController) {
     val scope = rememberCoroutineScope()
+    val showBackButton = remember { mutableStateOf(false)}
+    val title = remember { mutableStateOf("Pod Polakiem")}
+    navController.addOnDestinationChangedListener { _, destination, _ ->
+        showBackButton.value = navController.previousBackStackEntry != null
+        title.value = routeToTitle(destination.route ?: "")
+    }
 
     Scaffold(
             topBar = { CenterAlignedTopAppBar(
-                title = { Text(text = stringResource(id = R.string.restaurant_banner)) }
+                title = { SatisfyText(text = title.value, fontSize = 22.sp, color = MaterialTheme.colorScheme.background)  },
+                colors = topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    scrolledContainerColor = MaterialTheme.colorScheme.primaryContainer
+                ),
+                navigationIcon = {
+                    if (showBackButton.value) {
+                        IconButton(onClick = {
+                            navController.navigateUp()
+                        }) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = "Back",
+                                tint = MaterialTheme.colorScheme.background
+                            )
+                        }
+                    }
+                }
             )
         }
     ) { paddingValues ->
@@ -131,11 +160,11 @@ fun AppNavigation(modifier: Modifier, navController: NavHostController) {
                 Home(navController)
             }
             navigation(
-                startDestination = Nav.ClientHome.route,
+                startDestination = Nav.LandingPage.route,
                 route = Nav.Client.route
             ) {
-                composable(Nav.ClientHome.route) {
-                    Menu(navController)
+                composable(Nav.LandingPage.route) {
+                    LandingPage(navController)
                 }
                 composable(Nav.Menu.route) {
                     Menu(navController)

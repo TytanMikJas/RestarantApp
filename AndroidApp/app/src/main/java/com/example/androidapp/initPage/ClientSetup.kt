@@ -55,7 +55,7 @@ fun ClientSetup(navController: NavController) {
         Button(
             onClick = {
                 navController.popBackStack()
-                navController.navigate(Nav.ClientHome.route) {
+                navController.navigate(Nav.LandingPage.route) {
                     launchSingleTop = true
                 }
             }
