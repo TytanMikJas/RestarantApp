@@ -1,5 +1,6 @@
 package com.example.androidapp.Client.Menu
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,19 +20,28 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.androidapp.api.dto.Category
 import com.example.androidapp.api.dto.MenuDto
 import com.example.androidapp.ui.theme.AndroidAppTheme
+import com.example.androidapp.Utils.Nav
 
 @Composable
 fun ItemCard(menuItem: MenuDto, navController: NavController) {
     Card(
-        modifier = Modifier.padding(8.dp).fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        modifier = Modifier
+            .padding(8.dp)
+            .fillMaxWidth()
+            .clickable(true) {
+                navController.navigate(Nav.MenuItem.route + "{" + menuItem.id + "}")
+            }
+        ,
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
     ) {
         Row {
             AsyncImage(

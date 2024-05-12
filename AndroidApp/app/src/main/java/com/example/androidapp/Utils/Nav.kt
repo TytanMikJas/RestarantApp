@@ -5,4 +5,6 @@ sealed class Nav(val route: String) {
     data object Client : Nav("client")
     data object ClientHome : Nav("clientHome")
     data object Waiter : Nav("waiter")
+    data object MenuItem : Nav("menuItem")
+    data object Menu : Nav("menu")
 }

@@ -29,21 +29,21 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
-import com.example.androidapp.Client.LandingPage.ClientHome
 import com.example.androidapp.Client.Menu.Menu
+import com.example.androidapp.Client.MenuItem.MenuItem
 import com.example.androidapp.Utils.Nav
 import com.example.androidapp.Waiter.WaiterHome
+import com.example.androidapp.api.dto.Category
 import com.example.androidapp.api.dto.CreateOrderDto
 import com.example.androidapp.api.dto.CreateOrderItemDto
 import com.example.androidapp.api.dto.IOService
+import com.example.androidapp.api.dto.MenuDto
 import com.example.androidapp.api.dto.RetrofitInstance
-import com.example.androidapp.api.dto.RetrofitInstance.api
 import com.example.androidapp.initPage.Home
 import com.example.androidapp.ui.theme.AndroidAppTheme
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlin.coroutines.coroutineContext
 
 class MainActivity : ComponentActivity() {
 
@@ -136,6 +136,24 @@ fun AppNavigation(modifier: Modifier, navController: NavHostController) {
             ) {
                 composable(Nav.ClientHome.route) {
                     Menu(navController)
+                }
+                composable(Nav.Menu.route) {
+                    Menu(navController)
+                }
+                composable(Nav.MenuItem.route + "{id}") { backStackEntry ->
+                    val id = backStackEntry.arguments?.getInt("id")
+//                  val menuItem: MenuItemDto = TODO()
+                    MenuItem(menuItem = MenuDto(
+                        3,
+                        "Kotlet schabowy",
+                        "Kotlet schabowy z ziemniakami i surówką",
+                        listOf("gluten"),
+                        18.50,
+                        Category.LUNCH,
+                        "https://example.com/video.mp4",
+                        listOf("https://staticsmaker.iplsc.com/smaker_prod_2019_03_09/fa3c2e12df66513037181b9a3e32181a-lg.jpg", "https://staticsmaker.iplsc.com/smaker_prod_2019_03_09/fa3c2e12df66513037181b9a3e32181a-lg.jpg"),
+                    )
+                    )
                 }
             }
             navigation(
