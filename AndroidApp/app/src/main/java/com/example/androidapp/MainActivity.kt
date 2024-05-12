@@ -141,7 +141,7 @@ fun AppNavigation(modifier: Modifier, navController: NavHostController) {
                 route = Nav.Client.route
             ) {
                 composable(Nav.ClientHome.route) {
-                    ClientHome(navController)
+                    Menu(navController)
                 }
                 composable(Nav.Menu.route) {
                     Menu(navController)

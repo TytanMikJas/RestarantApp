@@ -7,6 +7,6 @@ data class MenuDto (
     val alergens: List<String>,
     val price: Double,
     val category: Category,
-    val video: String,
+    val video: String?,
     val images: List<String>
 )

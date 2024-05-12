@@ -15,10 +15,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.androidapp.api.dto.Category
+import com.example.androidapp.api.dto.MenuDto
 import com.example.androidapp.ui.theme.AndroidAppTheme
 
 @Composable
-fun MenuCategory(category: String, menuItems: List<MenuItemDto>, navController: NavController) {
+fun MenuCategory(category: String, menuItems: List<MenuDto>, navController: NavController) {
     Column {
         Text(
             text = category,
@@ -43,35 +45,33 @@ fun PreviewMenuCategory() {
     AndroidAppTheme {
         MenuCategory("Dania główne",
             listOf(
-                MenuItemDto(
+                MenuDto(
                     1,
                     "Schabowy z ziemniaczkami",
                     "Klasa sama w sobie, pyszne danie łączące tradycję z nowoczesnością",
                     listOf("gluten"),
-                    21.20f,
-                    listOf("https://staticsmaker.iplsc.com/smaker_prod_2019_03_09/fa3c2e12df66513037181b9a3e32181a-lg.jpg"),
-                    "https://example.com/video.mp4",
-                    "LUNCH"
+                    21.20,
+                    Category.BREAKFAST, "https://staticsmaker.iplsc.com/smaker_prod_2019_03_09/fa3c2e12df66513037181b9a3e32181a-lg.jpg",
+                    listOf("https://staticsmaker.iplsc.com/smaker_prod_2019_03_09/fa3c2e12df66513037181b9a3e32181a-lg.jpg")
                 ),
-                MenuItemDto(
-                    2,
-                    "Pierogi ruskie",
-                    "Pyszne pierogi z nadzieniem ziemniaczano-serowym",
-                    listOf("gluten", "lactose"),
-                    12.50f,
-                    listOf("https://staticsmaker.iplsc.com/smaker_prod_2019_03_09/fa3c2e12df66513037181b9a3e32181a-lg.jpg"),
-                    "https://example.com/video.mp4",
-                    "LUNCH"
-                ),
-                MenuItemDto(
-                    3,
-                    "Kotlet schabowy",
-                    "Kotlet schabowy z ziemniakami i surówką",
+                MenuDto(
+                    1,
+                    "Schabowy z ziemniaczkami",
+                    "Klasa sama w sobie, pyszne danie łączące tradycję z nowoczesnością",
                     listOf("gluten"),
-                    18.50f,
-                    listOf("https://staticsmaker.iplsc.com/smaker_prod_2019_03_09/fa3c2e12df66513037181b9a3e32181a-lg.jpg"),
-                    "https://example.com/video.mp4",
-                    "LUNCH")
+                    21.20,
+                    Category.BREAKFAST, "https://staticsmaker.iplsc.com/smaker_prod_2019_03_09/fa3c2e12df66513037181b9a3e32181a-lg.jpg",
+                    listOf("https://staticsmaker.iplsc.com/smaker_prod_2019_03_09/fa3c2e12df66513037181b9a3e32181a-lg.jpg")
+                ),
+                MenuDto(
+                    1,
+                    "Schabowy z ziemniaczkami",
+                    "Klasa sama w sobie, pyszne danie łączące tradycję z nowoczesnością",
+                    listOf("gluten"),
+                    21.20,
+                    Category.BREAKFAST, "https://staticsmaker.iplsc.com/smaker_prod_2019_03_09/fa3c2e12df66513037181b9a3e32181a-lg.jpg",
+                    listOf("https://staticsmaker.iplsc.com/smaker_prod_2019_03_09/fa3c2e12df66513037181b9a3e32181a-lg.jpg")
+                )
         ),
             rememberNavController()
         )

@@ -1,8 +1,7 @@
 package com.example.androidapp.api.dto
 
-data class OrderItem(
+data class OrderItemDto (
     val id: Int,
-    val name: String,
-    val price: Double,
+    val menuItem: MenuDto,
     val quantity: Int
 )
