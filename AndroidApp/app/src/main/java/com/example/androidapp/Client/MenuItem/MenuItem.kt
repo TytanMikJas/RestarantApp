@@ -38,7 +38,9 @@ fun MenuItem(menuItem: MenuDto) {
             var allergens: String = "Zawiera alergeny\n"
             menuItem.alergens.forEach{allergen -> allergens = allergens.plus("- $allergen\n")}
 
-            VideoPlayer(videoUrl = menuItem.video)
+            if (!menuItem.video.isNullOrEmpty()) {
+                VideoPlayer(videoUrl = menuItem.video)
+            }
             ImageSlider(menuItem = menuItem)
             Box(modifier = Modifier.padding(vertical = 20.dp, horizontal = 5.dp)) {
                 ExpandableTextBox(text = menuItem.description)

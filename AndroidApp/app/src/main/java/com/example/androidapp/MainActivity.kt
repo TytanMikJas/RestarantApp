@@ -25,15 +25,11 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import androidx.navigation.navigation
-import com.example.androidapp.Client.LandingPage.ClientHome
 import com.example.androidapp.Client.Menu.Menu
-import com.example.androidapp.Client.Menu.MenuItemDto
 import com.example.androidapp.Client.MenuItem.MenuItem
 import com.example.androidapp.Utils.Nav
 import com.example.androidapp.Waiter.WaiterHome
@@ -43,13 +39,11 @@ import com.example.androidapp.api.dto.CreateOrderItemDto
 import com.example.androidapp.api.dto.IOService
 import com.example.androidapp.api.dto.MenuDto
 import com.example.androidapp.api.dto.RetrofitInstance
-import com.example.androidapp.api.dto.RetrofitInstance.api
 import com.example.androidapp.initPage.Home
 import com.example.androidapp.ui.theme.AndroidAppTheme
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlin.coroutines.coroutineContext
 
 class MainActivity : ComponentActivity() {
 
