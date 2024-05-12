@@ -53,8 +53,8 @@ fun ClientHome(navController: NavController) {
                 .fillMaxWidth(),
             textAlign = TextAlign.Center,
         )
-        Button(onClick = { navController.navigate(Nav.MenuItem.route)}) {
-            
+        Button(onClick = { navController.navigate(Nav.Menu.route)}) {
+
         }
     }
 

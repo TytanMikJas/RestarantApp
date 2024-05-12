@@ -30,13 +30,15 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.androidapp.Client.Menu.MenuItemDto
+import com.example.androidapp.api.dto.Category
+import com.example.androidapp.api.dto.MenuDto
 import com.example.androidapp.ui.theme.AndroidAppTheme
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ImageSlider(
     modifier: Modifier = Modifier,
-    menuItem: MenuItemDto,
+    menuItem: MenuDto,
     pagerPaddingValues: PaddingValues = PaddingValues(end = 65.dp),
     imageCornerRadius: Dp = 16.dp,
 ) {
@@ -95,15 +97,16 @@ fun ImageSlider(
 @Preview(showBackground = true)
 @Composable
 fun ImageSliderPreview() {
-    val menuItem = MenuItemDto(
+    val menuItem = MenuDto(
         3,
         "Kotlet schabowy",
         "Kotlet schabowy z ziemniakami i surówką",
         listOf("gluten"),
-        18.50f,
-        listOf("https://staticsmaker.iplsc.com/smaker_prod_2019_03_09/fa3c2e12df66513037181b9a3e32181a-lg.jpg", "https://staticsmaker.iplsc.com/smaker_prod_2019_03_09/fa3c2e12df66513037181b9a3e32181a-lg.jpg"),
+        18.50,
+        Category.LUNCH,
         "https://example.com/video.mp4",
-        "LUNCH")
+        listOf("https://staticsmaker.iplsc.com/smaker_prod_2019_03_09/fa3c2e12df66513037181b9a3e32181a-lg.jpg", "https://staticsmaker.iplsc.com/smaker_prod_2019_03_09/fa3c2e12df66513037181b9a3e32181a-lg.jpg"),
+        )
     AndroidAppTheme {
        ImageSlider(menuItem = menuItem)
     }
