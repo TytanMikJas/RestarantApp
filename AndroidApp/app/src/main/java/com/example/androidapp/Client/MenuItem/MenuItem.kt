@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -20,23 +22,34 @@ import androidx.compose.ui.unit.dp
 import com.example.androidapp.api.dto.Category
 import com.example.androidapp.api.dto.MenuDto
 import com.example.androidapp.ui.theme.AndroidAppTheme
-
+import okhttp3.internal.notifyAll
 
 @Composable
 fun MenuItem(menuItem: MenuDto) {
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier.fillMaxSize()
+        .padding(horizontal = 8.dp)
+        .verticalScroll(rememberScrollState())) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
                 .background(MaterialTheme.colorScheme.background),
             verticalArrangement = Arrangement.Top
         ) {
+            var allergens: String = "Zawiera alergeny\n"
+            menuItem.alergens.forEach{allergen -> allergens = allergens.plus("- $allergen\n")}
+
             VideoPlayer(videoUrl = menuItem.video)
             ImageSlider(menuItem = menuItem)
-
-            ExpandableTextBox(text = menuItem.description)
-
+            Box(modifier = Modifier.padding(vertical = 20.dp, horizontal = 5.dp)) {
+                ExpandableTextBox(text = menuItem.description)
+            }
+            if(menuItem.alergens.isNotEmpty()) {
+                Box(modifier = Modifier.padding(top = 0.dp, bottom = 50.dp, start = 5.dp, end = 5.dp)) {
+                    ExpandableTextBox(text = allergens,
+                        collapsedMaxLine = 1,
+                        showMoreText = " ")
+                }
+            }
         }
         val addButtonShape = RoundedCornerShape(50.dp)
 

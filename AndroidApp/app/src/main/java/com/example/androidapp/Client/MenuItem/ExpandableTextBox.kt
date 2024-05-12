@@ -49,7 +49,6 @@ fun ExpandableTextBox(
     val isExpanded = remember { mutableStateOf(false) }
     val clickable = remember { mutableStateOf(false) }
     val lastCharIndex = remember { mutableIntStateOf(0) }
-    val secondToLastLineLastCharIndex = remember { mutableIntStateOf(0) }
     val trimmedText = text.trim()
 
     Box(modifier = Modifier
@@ -75,7 +74,7 @@ fun ExpandableTextBox(
                         append(trimmedText)
                     } else {
                         // Display truncated text and "Show More" button when collapsed.
-                        val adjustText = text.substring(0..lastCharIndex.intValue)
+                        val adjustText = text.substring(0..<lastCharIndex.intValue)
                             .dropLast(showMoreText.length)
                         append(adjustText)
                         append(showMoreText)
@@ -91,8 +90,9 @@ fun ExpandableTextBox(
             onTextLayout = { textLayoutResult ->
                 if (!isExpanded.value && textLayoutResult.hasVisualOverflow) {
                     clickable.value = true
-                    lastCharIndex.intValue = textLayoutResult.getLineEnd(collapsedMaxLine - 1)
-                    secondToLastLineLastCharIndex.intValue = textLayoutResult.getLineEnd(collapsedMaxLine - 2)
+                    lastCharIndex.intValue = textLayoutResult.getLineEnd((collapsedMaxLine - 1)
+                        .coerceAtMost(textLayoutResult.lineCount - 1)
+                        .coerceAtLeast(0))
                 }
             },
             style = style,

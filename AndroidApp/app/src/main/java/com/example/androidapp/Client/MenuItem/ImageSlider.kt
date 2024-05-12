@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -60,7 +61,7 @@ fun ImageSlider(
             HorizontalPager(
                 state = pagerState,
                 contentPadding = pagerPaddingValues,
-                modifier = modifier.height(200.dp)
+                modifier = modifier.aspectRatio(16f / 11f)
             ) { page ->
                 val scaleFactor = 1f
 
@@ -72,7 +73,7 @@ fun ImageSlider(
                     .alpha(
                         scaleFactor.coerceIn(0f, 1f)
                     )
-                    .padding(10.dp)
+                    .padding(end = 8.dp)
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(imageCornerRadius))) {
                     AsyncImage(
