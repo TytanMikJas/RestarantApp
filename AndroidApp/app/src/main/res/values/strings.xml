@@ -7,4 +7,7 @@
     <string name="DESERT">Deser</string>
     <string name="DRINKS">Napój</string>
     <string name="ADDITIONALS">Dodatek</string>
+    <string name="RESTURANT">Restauracja</string>
+    <string name="CHEF">Szef kuchni</string>
+    <string name="TEAM">Zespół</string>
 </resources>
