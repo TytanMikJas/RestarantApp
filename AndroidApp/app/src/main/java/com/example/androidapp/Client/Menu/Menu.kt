@@ -10,12 +10,9 @@ import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateMapOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -40,11 +37,16 @@ val menuCategories = listOf(
 @Composable
 fun Menu(navController: NavController) {
     val listState = rememberLazyListState()
-    var selectedTabIndex by remember { mutableStateOf(0) }
     val coroutineScope = rememberCoroutineScope()
-    val categoryIndices = remember { mutableStateMapOf<Int, Int>() }
-    var accumulatedItems = 0
     val viewModel: CustomerViewModel = LocalExampleViewModel.current
+    val selectedTabIndex = viewModel.selectedTabIndex
+
+    LaunchedEffect(listState) {
+        snapshotFlow { listState.firstVisibleItemIndex }
+            .collect { index ->
+                viewModel.selectedTabIndex = index
+            }
+    }
 
 
     Column {
@@ -53,9 +55,9 @@ fun Menu(navController: NavController) {
                 Tab(
                     selected = selectedTabIndex == index,
                     onClick = {
-                        selectedTabIndex = index
+                        viewModel.selectedTabIndex = index
                         coroutineScope.launch {
-                            categoryIndices[index]?.let { listState.scrollToItem(it) }
+                            listState.scrollToItem(index)
                         }
                     },
                     text = { Text(stringResource(id = title)) }
@@ -64,11 +66,8 @@ fun Menu(navController: NavController) {
         }
 
         LazyColumn(state = listState, modifier = Modifier.padding(8.dp)) {
-            menuCategories.forEachIndexed { index, title ->
+            menuCategories.forEachIndexed { _, title ->
                 item {
-                    if (!categoryIndices.containsKey(index)) {
-                        categoryIndices[index] = accumulatedItems
-                    }
                     MenuCategory(
                         stringResource(id = title), when (title) {
                             R.string.BREAKFAST -> viewModel.menu.value?.filter { it.category == Category.BREAKFAST } ?: listOf()
@@ -80,7 +79,6 @@ fun Menu(navController: NavController) {
                         }, navController
                     )
                     Spacer(modifier = Modifier.height(14.dp))
-                    accumulatedItems++
                 }
             }
         }
