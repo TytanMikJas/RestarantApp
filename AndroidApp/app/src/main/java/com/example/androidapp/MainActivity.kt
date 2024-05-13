@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -44,7 +43,6 @@ import com.example.androidapp.Utils.Nav
 import com.example.androidapp.Utils.SatisfyText
 import com.example.androidapp.Utils.routeToTitle
 import com.example.androidapp.Waiter.WaiterHome
-import com.example.androidapp.api.dto.Category
 import com.example.androidapp.api.dto.CreateOrderDto
 import com.example.androidapp.api.dto.CreateOrderItemDto
 import com.example.androidapp.api.dto.IOService
@@ -56,9 +54,7 @@ import com.example.androidapp.viewmodels.customer.CustomerViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.staticCompositionLocalOf
-import androidx.lifecycle.ViewModel
 
 val LocalExampleViewModel = staticCompositionLocalOf<CustomerViewModel> {
     error("No CustomerViewModel provided")
@@ -122,9 +118,12 @@ fun App(navController: NavHostController) {
     val scope = rememberCoroutineScope()
     val showBackButton = remember { mutableStateOf(false)}
     val title = remember { mutableStateOf("Pod Polakiem")}
-    navController.addOnDestinationChangedListener { _, destination, _ ->
+    val viewModel = LocalExampleViewModel.current
+
+    navController.addOnDestinationChangedListener { _, destination, arguments ->
         showBackButton.value = navController.previousBackStackEntry != null
-        title.value = routeToTitle(destination.route ?: "")
+        val id: Long? = arguments?.getString("id")?.toLongOrNull()
+        title.value = routeToTitle(destination.route ?: "", viewModel, id)
     }
 
     Scaffold(
@@ -152,7 +151,6 @@ fun App(navController: NavHostController) {
     ) { paddingValues ->
         AppNavigation(Modifier.padding(top = paddingValues.calculateTopPadding()), navController)
     }
-
 }
 
 
