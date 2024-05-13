@@ -104,7 +104,7 @@ fun ExpandableTextBox(
                     .align(Alignment.BottomEnd)
             ) {
                 Icon(
-                    painter = painterResource(id = if (isExpanded.value) R.drawable.chevron_circle_down_f else R.drawable.chevron_circle_down_f),
+                    painter = painterResource(id = if (isExpanded.value) R.drawable.chevron_circle_up_f else R.drawable.chevron_circle_down_f),
                     contentDescription = "Expand icon",
                     tint = MaterialTheme.colorScheme.onSecondaryContainer
                 )

@@ -1,5 +1,6 @@
 package com.example.androidapp.Client.MenuItem
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.aspectRatio
@@ -41,15 +42,13 @@ fun VideoPlayer(videoUrl: String) {
     }
 
     val playerView = PlayerView(context)
-    val playWhenReady by rememberSaveable {
-        mutableStateOf(true)
-    }
+    playerView.useController = false
 
     playerView.player = player
 
     LaunchedEffect(player) {
         player.prepare()
-        player.playWhenReady = playWhenReady
+        player.play()
     }
 
     AndroidView(
@@ -57,10 +56,15 @@ fun VideoPlayer(videoUrl: String) {
             .fillMaxWidth()
             .aspectRatio(16f / 9f)
             .padding(bottom = 8.dp)
-            .clip(RoundedCornerShape(16.dp)),
+            .clip(RoundedCornerShape(5)),
         factory = { playerView
         })
+
+    BackHandler {
+        (playerView.player as ExoPlayer).stop()
+    }
 }
+
 
 @Preview(showBackground = true)
 @Composable
