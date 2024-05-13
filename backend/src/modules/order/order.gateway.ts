@@ -27,18 +27,20 @@ export default class OrderGateway
     console.log('init');
   }
 
-  async handleConnection(client: any) {
+  async handleConnection(client: any, ...args: any[]) {
     const userId = client.handshake.auth.userId;
     console.log(userId);
     if (!userId) {
       client.join(this.WAITER_ROOM);
-      const orders = this.orderService.getOrders();
+      const orders = await this.orderService.getOrders();
       this.server.to(this.WAITER_ROOM).emit('connectedWaiter', orders);
+      console.log(`emit connectedWaiter`, orders)
     } else {
       client.join(userId);
       const order = await this.orderService.getLatestOrder(Number(userId));
       if (order) {
         this.server.to(userId).emit('onNextOrderStatusClient', order);
+        console.log(`emit onNextOrderStatusClient to ${userId}`, order )
       } else {
         this.server.to(userId).emit('connectedClient', 'connected');
       }
@@ -54,6 +56,7 @@ export default class OrderGateway
     @ConnectedSocket() client: Socket,
     @MessageBody() data: CreateOrderDto,
   ) {
+    console.log("data" + data)
     const userId = client.handshake.auth.userId;
     const order = await this.orderService.createOrder(data, Number(userId));
     this.server.to(userId).emit('onCreateOrderClient', order);
@@ -62,6 +65,7 @@ export default class OrderGateway
 
   @SubscribeMessage('nextOrderStatus')
   async nextOrderStatus(@MessageBody() data: NextOrderStatusDto) {
+    console.log(data);
     const order = await this.orderService.nextOrderStatus(data.orderId);
     this.server
       .to(order.tableId.toString())

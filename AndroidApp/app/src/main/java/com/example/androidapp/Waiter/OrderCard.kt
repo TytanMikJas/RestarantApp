@@ -1,5 +1,6 @@
 package com.example.androidapp.Waiter
 
+import android.util.Log
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,10 +22,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.androidapp.WaiterViewModel
+import com.example.androidapp.api.dto.OrderDto
+import com.example.androidapp.api.dto.Status
 import com.example.androidapp.ui.theme.AndroidAppTheme
 
 @Composable
-fun OrderCard(order: Order, backgroundColor: Color) {
+fun OrderCard(order: OrderDto, backgroundColor: Color, buttonText: String) {
+    val waiterViewModel = WaiterViewModel.current
+
+    fun onClick() {
+        waiterViewModel.nextOrderStatus(order.id)
+        if(order.status == Status.DELIVERED){
+            waiterViewModel.orders.value = waiterViewModel.orders.value.filter { it.id != order.id }
+        }
+        Log.d("OrderCard", "Order ${order.id} status changed")
+    }
+
     Card(
         modifier = Modifier
             .padding(8.dp)
@@ -34,37 +48,27 @@ fun OrderCard(order: Order, backgroundColor: Color) {
         shape = RoundedCornerShape(8.dp)
     ){
         Column(modifier = Modifier.padding(10.dp, 14.dp, 14.dp, 8.dp)) {
-            Text(order.id, fontSize = 18.sp)
-            Text(order.table, fontSize = 16.sp, color = Color.DarkGray)
+            Text(order.id.toString(), fontSize = 18.sp)
+            Text(order.tableId.toString(), fontSize = 16.sp, color = Color.DarkGray)
             Spacer(modifier = Modifier.height(8.dp))
             for (item in order.items) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text(item.first)
-                    Text(item.second)
+                    Text(item.menuItem.name)
+                    Text(item.menuItem.price.toString())
                 }
                 Spacer(modifier = Modifier.height(2.dp))
             }
             Spacer(modifier = Modifier.height(8.dp))
             Button(
-                onClick = { /* TODO: handle click */ },
+                onClick = { onClick() },
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 elevation = ButtonDefaults.elevatedButtonElevation(defaultElevation = 6.dp)
             ) {
-                Text("Action", color = Color.White)
+                Text(buttonText, color = Color.White)
             }
         }
-    }
-}
-
-
-@Preview(showBackground = true,
-    device = "spec:width=1100dp,height=693dp,dpi=420,isRound=false,chinSize=0dp,orientation=landscape")
-@Composable
-fun PreviewOrderCrd(){
-    AndroidAppTheme {
-            OrderCard(order = Order("#2341", "Stolik 15", listOf("Schabowy z ziemniakami" to "53,72zł", "Kompot śliwkowy" to "9,99zł")), backgroundColor = Color.Cyan.copy(alpha = 0.3f))
     }
 }

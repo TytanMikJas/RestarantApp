@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun ColumnTitle(text : String) {
     Text(
-        "Zamówienia oczekujące",
+        text = text,
         fontSize = 24.sp,
         modifier = Modifier
             .fillMaxWidth()

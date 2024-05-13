@@ -1,8 +1,6 @@
 package com.example.androidapp.Utils
 
 import android.util.Log
-import androidx.compose.runtime.ProvidableCompositionLocal
-import com.example.androidapp.LocalExampleViewModel
 import com.example.androidapp.viewmodels.customer.CustomerViewModel
 
 fun lerp(from: Float, to: Float, factor: Float): Float {

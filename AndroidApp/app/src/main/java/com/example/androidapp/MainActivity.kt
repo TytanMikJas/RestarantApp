@@ -3,6 +3,7 @@ package com.example.androidapp
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,6 +23,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -44,9 +46,6 @@ import com.example.androidapp.Utils.Nav
 import com.example.androidapp.Utils.SatisfyText
 import com.example.androidapp.Utils.routeToTitle
 import com.example.androidapp.Waiter.WaiterHome
-import com.example.androidapp.api.dto.CreateOrderDto
-import com.example.androidapp.api.dto.CreateOrderItemDto
-import com.example.androidapp.api.dto.IOService
 import com.example.androidapp.api.dto.MenuDto
 import com.example.androidapp.api.dto.RetrofitInstance
 import com.example.androidapp.initPage.Home
@@ -56,37 +55,34 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.staticCompositionLocalOf
+import com.example.androidapp.Client.Basket.Basket
+import com.example.androidapp.Client.Waiting.Waiting
+import com.example.androidapp.api.dto.Status
+import com.example.androidapp.viewmodels.waiter.WaiterViewModel
 
-val LocalExampleViewModel = staticCompositionLocalOf<CustomerViewModel> {
+val CustomerViewModel = staticCompositionLocalOf<CustomerViewModel> {
     error("No CustomerViewModel provided")
 }
+
+val WaiterViewModel = staticCompositionLocalOf<WaiterViewModel> {
+    error("No WaiterViewModel provided")
+}
+
 class MainActivity : ComponentActivity() {
 
     @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val apiService = RetrofitInstance.api
-        GlobalScope.launch {
-             val response = apiService.getMenu()
-            Log.d("Main", response.toString())
-            }
-        val ioClient = IOService(null)
-        ioClient.connect()
-
-        Thread.sleep(2000);
-        ioClient.createOrder(CreateOrderDto(listOf(
-            CreateOrderItemDto(1, 1),
-            CreateOrderItemDto(2, 2),
-            CreateOrderItemDto(3, 3)
-        )))
         val customerViewModel = CustomerViewModel()
+        val waiterViewModel = WaiterViewModel()
 
         setContent {
-            CompositionLocalProvider(LocalExampleViewModel provides customerViewModel) {
-                AndroidAppTheme(darkTheme = false) {
-                    val navController = rememberNavController()
-                    App(navController)
+            CompositionLocalProvider(CustomerViewModel provides customerViewModel) {
+                CompositionLocalProvider(WaiterViewModel provides waiterViewModel) {
+                    AndroidAppTheme(darkTheme = false) {
+                        val navController = rememberNavController()
+                        App(navController)
+                    }
                 }
                 
             }
@@ -95,30 +91,14 @@ class MainActivity : ComponentActivity() {
 }
 
 
-@Composable
-fun NavigationItem(
-    label: String, route: String, navController: NavController) {
-    NavigationDrawerItem(
-        modifier = Modifier.padding(10.dp),
-        label = { },
-        selected = false,
-        onClick = {
-            navController.navigate(route) {
-                popUpTo(navController.graph.findStartDestination().id) {
-                    saveState = true
-                }
-                launchSingleTop = true
-                restoreState = true}
-        }
-    )
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun App(navController: NavHostController) {
+    val scope = rememberCoroutineScope()
+    val viewModel = CustomerViewModel.current
     val showBackButton = remember { mutableStateOf(false)}
     val title = remember { mutableStateOf("Pod Polakiem")}
-    val viewModel = LocalExampleViewModel.current
     val onBackPressedDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
 
     navController.addOnDestinationChangedListener { _, destination, arguments ->
@@ -158,21 +138,55 @@ fun App(navController: NavHostController) {
 @Composable
 fun AppNavigation(modifier: Modifier, navController: NavHostController) {
     val context = LocalContext.current
-    val viewModel = LocalExampleViewModel.current
+    val viewModel = CustomerViewModel.current
+    LaunchedEffect(viewModel.order.value?.status) {
+        if (viewModel.tableId.value == null) {
+            return@LaunchedEffect
+        }
+        when (viewModel.order.value?.status) {
+            Status.DELIVERED -> {
+                Log.d("Navigation", "Status: DELIVERED")
+                // Navigate to Waiting and clear the back stack
+                navController.navigate(Nav.Waiting.route) {
+                    popUpTo(0) { inclusive = true }
+                }
+            }
+
+            else -> {
+                Log.d("Navigation", "Status: ${viewModel.order.value?.status}")
+                // Navigate to Waiting and clear the back stack
+                navController.navigate(Nav.Waiting.route) {
+                    popUpTo(0) { inclusive = true }
+                }
+            }
+        }
+    }
+
+    BackHandler(enabled = viewModel.order.value?.status == Status.DELIVERED) {
+        navController.navigate(Nav.LandingPage.route) {
+            launchSingleTop = true
+        }
+    }
+
+
+
+
+
+
+
     Surface(
         modifier = modifier
             .fillMaxSize()
             .statusBarsPadding()
             .navigationBarsPadding(),
         color = MaterialTheme.colorScheme.background
-        ) {
+    ) {
         NavHost(navController = navController, startDestination = "Home") {
             composable("Home") {
                 Home(navController)
             }
             navigation(
-                startDestination = Nav.LandingPage.route,
-                route = Nav.Client.route
+                startDestination = Nav.LandingPage.route, route = Nav.Client.route
             ) {
                 composable(Nav.LandingPage.route) {
                     LandingPage(navController)
@@ -184,13 +198,18 @@ fun AppNavigation(modifier: Modifier, navController: NavHostController) {
                     val id = backStackEntry.arguments?.getString("id")
                     Log.d("Main", id.toString())
                     val idLong = id?.toLong()
-                    val menuItem: MenuDto = viewModel.menu.value.find { it.id == idLong } !!
-                    MenuItem(viewModel, menuItem = menuItem)
+                    val menuItem: MenuDto = viewModel.menu.value.find { it.id == idLong }!!
+                    MenuItem(menuItem = menuItem)
+                }
+                composable(Nav.Basket.route) {
+                    Basket(navController)
+                }
+                composable(Nav.Waiting.route) {
+                    Waiting(navController)
                 }
             }
             navigation(
-                startDestination = "WaiterHome",
-                route = Nav.Waiter.route
+                startDestination = "WaiterHome", route = Nav.Waiter.route
             ) {
                 composable("WaiterHome") {
                     WaiterHome(navController)
@@ -199,7 +218,6 @@ fun AppNavigation(modifier: Modifier, navController: NavHostController) {
         }
     }
 }
-
 
 
 @Preview

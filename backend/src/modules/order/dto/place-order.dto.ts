@@ -1,11 +1,11 @@
 import { OrderItem } from '@prisma/client';
 
-export default interface CreateOrderDto {
+export default class CreateOrderDto {
   items: CreateOrderItemDto[];
 }
 
 
-export interface CreateOrderItemDto {
+export class CreateOrderItemDto {
   id: number;
   quantity: number;
 }

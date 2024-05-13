@@ -34,6 +34,7 @@ export default class OrderRepository {
   }
 
   async createOrder(data: CreateOrderDto, userId: any): Promise<OrderDto> {
+    console.log(typeof data)
     return await this.prisma.order.create({
       data: {
         tableId: userId,
@@ -53,8 +54,10 @@ export default class OrderRepository {
 
   async getLatestOrder(userId: any): Promise<OrderDto> {
     return this.prisma.order.findFirst({
-      where: { tableId: userId },
-      orderBy: { createdAt: 'desc' },
+      where: { tableId: userId, status: {
+        not: Status.ARCHIVED,
+      }},
+      orderBy: { createdAt: 'asc' },
       include: {
         items: { include: { menuItem: { include: { attachments: true } } } },
       },

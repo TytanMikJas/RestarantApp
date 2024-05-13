@@ -30,14 +30,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.androidapp.CustomerViewModel
 import com.example.androidapp.R
 import com.example.androidapp.Utils.Nav
+import com.example.androidapp.WaiterViewModel
 import com.example.androidapp.ui.theme.AndroidAppTheme
 
 @Composable
 fun Home(navController: NavController) {
     var text by remember { mutableStateOf("") }
-
+    val customerViewModel = CustomerViewModel.current
+    val waiterViewModel = WaiterViewModel.current
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -72,6 +75,8 @@ fun Home(navController: NavController) {
         ) {
             Button(
                 onClick = {
+                    customerViewModel.tableId.value = text.toInt()
+                    customerViewModel.connectToSocketAsClient()
                     navController.popBackStack()
                     navController.navigate(Nav.LandingPage.route) {
                         launchSingleTop = true
@@ -91,7 +96,13 @@ fun Home(navController: NavController) {
         }
         Spacer(modifier = Modifier.height(16.dp))
         Button(
-            onClick = { navController.navigate(Nav.Waiter.route) },
+            onClick = {
+                waiterViewModel.connectToSocketAsWaiter()
+                navController.popBackStack()
+                navController.navigate(Nav.Waiter.route) {
+                    launchSingleTop = true
+                }
+            },
             shape = RoundedCornerShape(8.dp),
             modifier = Modifier.fillMaxWidth()
         ) {

@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.androidapp.CustomerViewModel
 import com.example.androidapp.R
 import com.example.androidapp.ui.theme.AndroidAppTheme
 import com.example.androidapp.Utils.Nav
@@ -58,7 +59,7 @@ fun LandingPage(navController: NavController) {
     var selectedIndex by remember { mutableIntStateOf(0) }
     val coroutineScope = rememberCoroutineScope()
     val categoryIndices = remember { mutableStateMapOf<Int, Int>() }
-
+    val viewModel = CustomerViewModel.current
     val pagerState = rememberPagerState(
         pageCount = { landingPageSubpages.size },
         initialPage = 0,
@@ -68,6 +69,8 @@ fun LandingPage(navController: NavController) {
     LaunchedEffect(selectedIndex) {
         pagerState.scrollToPage(selectedIndex)
     }
+
+
 
     LaunchedEffect(pagerState.currentPage) {
         selectedIndex = pagerState.currentPage
