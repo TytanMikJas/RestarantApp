@@ -1,5 +1,6 @@
 package com.example.androidapp.Client.MenuItem
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -39,6 +40,7 @@ fun MenuItem(menuItem: MenuDto) {
             menuItem.alergens.forEach{allergen -> allergens = allergens.plus("- $allergen\n")}
 
             if (!menuItem.video.isNullOrEmpty()) {
+                Log.d("MenuItem", "Video: ${menuItem.video}")
                 VideoPlayer(videoUrl = menuItem.video)
             }
             ImageSlider(menuItem = menuItem)

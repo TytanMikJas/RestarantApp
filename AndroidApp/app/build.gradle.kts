@@ -1,6 +1,6 @@
 plugins {
-    alias(libs.plugins.androidApplication)
-    alias(libs.plugins.jetbrainsKotlinAndroid)
+    id("com.android.application")
+    kotlin("android")
 }
 
 android {
@@ -78,5 +78,4 @@ dependencies {
     implementation ("io.socket:socket.io-client:2.1.0") {
 
     }
-
 }

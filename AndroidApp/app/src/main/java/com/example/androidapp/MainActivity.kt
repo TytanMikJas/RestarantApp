@@ -21,6 +21,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -51,10 +52,17 @@ import com.example.androidapp.api.dto.MenuDto
 import com.example.androidapp.api.dto.RetrofitInstance
 import com.example.androidapp.initPage.Home
 import com.example.androidapp.ui.theme.AndroidAppTheme
+import com.example.androidapp.viewmodels.customer.CustomerViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.lifecycle.ViewModel
 
+val LocalExampleViewModel = staticCompositionLocalOf<CustomerViewModel> {
+    error("No CustomerViewModel provided")
+}
 class MainActivity : ComponentActivity() {
 
     @OptIn(DelicateCoroutinesApi::class)
@@ -75,11 +83,15 @@ class MainActivity : ComponentActivity() {
             CreateOrderItemDto(2, 2),
             CreateOrderItemDto(3, 3)
         )))
+        val customerViewModel = CustomerViewModel()
 
         setContent {
-            AndroidAppTheme(darkTheme = false) {
-                val navController = rememberNavController()
-                App(navController)
+            CompositionLocalProvider(LocalExampleViewModel provides customerViewModel) {
+                AndroidAppTheme(darkTheme = false) {
+                    val navController = rememberNavController()
+                    App(navController)
+                }
+                
             }
         }
     }
@@ -147,7 +159,7 @@ fun App(navController: NavHostController) {
 @Composable
 fun AppNavigation(modifier: Modifier, navController: NavHostController) {
     val context = LocalContext.current
-
+    val viewModel = LocalExampleViewModel.current
     Surface(
         modifier = modifier
             .fillMaxSize()
@@ -169,20 +181,12 @@ fun AppNavigation(modifier: Modifier, navController: NavHostController) {
                 composable(Nav.Menu.route) {
                     Menu(navController)
                 }
-                composable(Nav.MenuItem.route + "{id}") { backStackEntry ->
-                    val id = backStackEntry.arguments?.getInt("id")
-//                  val menuItem: MenuItemDto = TODO()
-                    MenuItem(menuItem = MenuDto(
-                        3,
-                        "Kotlet schabowy",
-                        "Kotlet schabowy z ziemniakami i surówką",
-                        listOf("gluten"),
-                        18.50,
-                        Category.LUNCH,
-                        "https://example.com/video.mp4",
-                        listOf("https://staticsmaker.iplsc.com/smaker_prod_2019_03_09/fa3c2e12df66513037181b9a3e32181a-lg.jpg", "https://staticsmaker.iplsc.com/smaker_prod_2019_03_09/fa3c2e12df66513037181b9a3e32181a-lg.jpg"),
-                    )
-                    )
+                composable(Nav.MenuItem.route + "/{id}") { backStackEntry ->
+                    val id = backStackEntry.arguments?.getString("id")
+                    Log.d("Main", id.toString())
+                    val idLong = id?.toLong()
+                    val menuItem: MenuDto = viewModel.menu.value.find { it.id == idLong } !!
+                    MenuItem(menuItem = menuItem)
                 }
             }
             navigation(

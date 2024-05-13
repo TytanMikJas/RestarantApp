@@ -8,5 +8,5 @@ data class MenuDto (
     val price: Double,
     val category: Category,
     val video: String?,
-    val images: List<String>
+    var images: List<String>
 )

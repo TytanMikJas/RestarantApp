@@ -38,7 +38,7 @@ fun ItemCard(menuItem: MenuDto, navController: NavController) {
             .padding(8.dp)
             .fillMaxWidth()
             .clickable(true) {
-                navController.navigate(Nav.MenuItem.route + "{" + menuItem.id + "}")
+                navController.navigate(Nav.MenuItem.route + "/" + menuItem.id)
             }
         ,
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),

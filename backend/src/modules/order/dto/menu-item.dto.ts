@@ -7,6 +7,5 @@ export default interface MenuItemDto {
   description: string;
   alergens: string[];
   price: number;
-  attachments: AttachmentDto[];
   category: Category;
 }

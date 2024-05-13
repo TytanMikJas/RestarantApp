@@ -22,10 +22,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.androidapp.LocalExampleViewModel
 import com.example.androidapp.R
 import com.example.androidapp.api.dto.Category
 import com.example.androidapp.api.dto.MenuDto
 import com.example.androidapp.ui.theme.AndroidAppTheme
+import com.example.androidapp.viewmodels.customer.CustomerViewModel
 import kotlinx.coroutines.launch
 
 val menuCategories = listOf(
@@ -189,6 +191,8 @@ fun Menu(navController: NavController) {
     val coroutineScope = rememberCoroutineScope()
     val categoryIndices = remember { mutableStateMapOf<Int, Int>() }
     var accumulatedItems = 0
+    val viewModel: CustomerViewModel = LocalExampleViewModel.current
+
 
     Column {
         ScrollableTabRow(selectedTabIndex = selectedTabIndex, edgePadding = 16.dp) {
@@ -214,11 +218,11 @@ fun Menu(navController: NavController) {
                     }
                     MenuCategory(
                         stringResource(id = title), when (title) {
-                            R.string.BREAKFAST -> BreakfastItems
-                            R.string.LUNCH -> LunchItems
-                            R.string.DESERT -> DesertItems
-                            R.string.DRINKS -> DrinkItems
-                            R.string.ADDITIONALS -> AdditionalItems
+                            R.string.BREAKFAST -> viewModel.menu.value?.filter { it.category == Category.BREAKFAST } ?: listOf()
+                            R.string.LUNCH -> viewModel.menu.value?.filter { it.category == Category.LUNCH } ?: listOf()
+                            R.string.DESERT -> viewModel.menu.value?.filter { it.category == Category.DESSERT } ?: listOf()
+                            R.string.DRINKS -> viewModel.menu.value?.filter { it.category == Category.DRINKS } ?: listOf()
+                            R.string.ADDITIONALS -> viewModel.menu.value?.filter { it.category == Category.ADDITIONALS } ?: listOf()
                             else -> listOf()
                         }, navController
                     )
