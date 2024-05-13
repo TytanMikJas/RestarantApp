@@ -20,16 +20,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.androidapp.Utils.Nav
 import com.example.androidapp.api.dto.Category
 import com.example.androidapp.api.dto.MenuDto
 import com.example.androidapp.ui.theme.AndroidAppTheme
-import com.example.androidapp.Utils.Nav
 
 @Composable
 fun ItemCard(menuItem: MenuDto, navController: NavController) {
@@ -51,7 +49,7 @@ fun ItemCard(menuItem: MenuDto, navController: NavController) {
                     .build(),
                 contentDescription = menuItem.name,
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.size(120.dp),
+                modifier = Modifier.size(135.dp),
             )
             Spacer(modifier = Modifier.width(8.dp))
             Column {
@@ -68,7 +66,7 @@ fun ItemCard(menuItem: MenuDto, navController: NavController) {
                 )
                 Spacer(modifier = Modifier.height(28.dp))
                 Text(
-                    text = menuItem.price.toString() + "0 zł",
+                    text = menuItem.price.toString() + " zł",
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.primary
                 )

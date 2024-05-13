@@ -1,15 +1,15 @@
 package com.example.androidapp.viewmodels.customer
 
-import android.util.Log
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.androidapp.api.dto.MenuDto
 import com.example.androidapp.api.dto.OrderDto
 import com.example.androidapp.api.dto.RetrofitInstance
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 class CustomerViewModel: ViewModel() {
@@ -19,6 +19,9 @@ class CustomerViewModel: ViewModel() {
     private set
     var order: MutableState<OrderDto?> = mutableStateOf(null)
     private set
+
+    var selectedTabIndex by mutableIntStateOf(0)
+
     init {
         val apiService = RetrofitInstance.api
         viewModelScope.launch {

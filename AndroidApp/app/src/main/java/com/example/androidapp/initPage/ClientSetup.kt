@@ -63,7 +63,6 @@ fun ClientSetup(navController: NavController) {
             Text(text = "Zatwierdź ID")
         }
     }
-
 }
 
 
