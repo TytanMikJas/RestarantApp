@@ -48,7 +48,7 @@ fun MenuItem(menuItem: MenuDto) {
                 ExpandableTextBox(text = menuItem.description)
             }
             if(menuItem.alergens.isNotEmpty()) {
-                Box(modifier = Modifier.padding(top = 0.dp, bottom = 50.dp, start = 5.dp, end = 5.dp)) {
+                Box(modifier = Modifier.padding(top = 0.dp, bottom = 70.dp, start = 5.dp, end = 5.dp)) {
                     ExpandableTextBox(text = allergens,
                         collapsedMaxLine = 1,
                         showMoreText = " ")
