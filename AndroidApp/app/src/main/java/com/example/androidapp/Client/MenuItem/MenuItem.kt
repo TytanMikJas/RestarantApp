@@ -1,6 +1,7 @@
 package com.example.androidapp.Client.MenuItem
 
 import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -15,25 +16,47 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.example.androidapp.LocalExampleViewModel
 import com.example.androidapp.api.dto.Category
 import com.example.androidapp.api.dto.MenuDto
 import com.example.androidapp.ui.theme.AndroidAppTheme
+import com.example.androidapp.viewmodels.customer.CustomerViewModel
 import okhttp3.internal.notifyAll
 
 @Composable
-fun MenuItem(menuItem: MenuDto) {
-    Box(modifier = Modifier.fillMaxSize()
-        .padding(vertical = 10.dp, horizontal = 8.dp)
-        .verticalScroll(rememberScrollState())) {
+fun MenuItem(viewModel: CustomerViewModel, menuItem: MenuDto) {
+    var showPopup by remember { mutableStateOf(false)}
+
+    if(showPopup) {
+        AddItemDialog(menuItem,
+            {showPopup = false},
+            {quantity: Int ->
+            val items: List<MenuDto> = List(quantity) {menuItem}
+            viewModel.cart.value = viewModel.cart.value.plus(items)
+                Log.d("LICZBA DAN: ", viewModel.cart.value.size.toString())
+            showPopup = false})
+    }
+
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .padding(vertical = 10.dp, horizontal = 8.dp)) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background),
+                .background(MaterialTheme.colorScheme.background)
+                .verticalScroll(rememberScrollState())
+                .padding(bottom = 90.dp),
             verticalArrangement = Arrangement.Top
         ) {
             var allergens: String = "Zawiera alergeny\n"
@@ -48,7 +71,7 @@ fun MenuItem(menuItem: MenuDto) {
                 ExpandableTextBox(text = menuItem.description)
             }
             if(menuItem.alergens.isNotEmpty()) {
-                Box(modifier = Modifier.padding(top = 0.dp, bottom = 50.dp, start = 5.dp, end = 5.dp)) {
+                Box(modifier = Modifier.padding(top = 0.dp, bottom = 0.dp, start = 5.dp, end = 5.dp)) {
                     ExpandableTextBox(text = allergens,
                         collapsedMaxLine = 1,
                         showMoreText = " ")
@@ -58,7 +81,7 @@ fun MenuItem(menuItem: MenuDto) {
         val addButtonShape = RoundedCornerShape(50.dp)
 
         FloatingActionButton(
-            onClick = { TODO() },
+            onClick = { showPopup = true },
             containerColor = MaterialTheme.colorScheme.background,
             contentColor = MaterialTheme.colorScheme.primary,
             modifier = Modifier
@@ -72,7 +95,6 @@ fun MenuItem(menuItem: MenuDto) {
                 text = "Dodaj do zamówienia",
                 color = MaterialTheme.colorScheme.tertiary
             )
-
         }
     }
 }
@@ -94,6 +116,6 @@ fun MenuItemPreview() {
         listOf("https://staticsmaker.iplsc.com/smaker_prod_2019_03_09/fa3c2e12df66513037181b9a3e32181a-lg.jpg", "https://staticsmaker.iplsc.com/smaker_prod_2019_03_09/fa3c2e12df66513037181b9a3e32181a-lg.jpg"),
     )
     AndroidAppTheme {
-        MenuItem(menuItem)
+        MenuItem(LocalExampleViewModel.current, menuItem)
     }
 }

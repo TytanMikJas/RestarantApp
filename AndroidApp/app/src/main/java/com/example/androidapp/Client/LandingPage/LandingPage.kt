@@ -133,7 +133,7 @@ fun LandingPage(navController: NavController) {
         FloatingActionButton(
             onClick = { navController.navigate(Nav.Menu.route) },
             containerColor = MaterialTheme.colorScheme.background,
-            contentColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.tertiary,
             modifier = Modifier
                 .padding(16.dp)
                 .align(Alignment.BottomCenter)

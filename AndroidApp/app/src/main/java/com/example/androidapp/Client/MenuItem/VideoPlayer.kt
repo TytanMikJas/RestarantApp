@@ -16,6 +16,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,6 +33,8 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.MimeTypes
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.androidapp.ui.theme.AndroidAppTheme
 
 @Composable
@@ -55,13 +58,14 @@ fun VideoPlayer(videoUrl: String) {
         modifier = Modifier
             .fillMaxWidth()
             .aspectRatio(16f / 9f)
-            .padding(bottom = 8.dp)
-            .clip(RoundedCornerShape(5)),
+            .padding(bottom = 8.dp),
         factory = { playerView
         })
 
-    BackHandler {
-        (playerView.player as ExoPlayer).stop()
+    DisposableEffect(Unit) {
+        onDispose {
+            player.release() // Release ExoPlayer resources when the composable is disposed of
+        }
     }
 }
 
