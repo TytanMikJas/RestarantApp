@@ -3,6 +3,7 @@ package com.example.androidapp
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -115,10 +116,10 @@ fun NavigationItem(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun App(navController: NavHostController) {
-    val scope = rememberCoroutineScope()
     val showBackButton = remember { mutableStateOf(false)}
     val title = remember { mutableStateOf("Pod Polakiem")}
     val viewModel = LocalExampleViewModel.current
+    val onBackPressedDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
 
     navController.addOnDestinationChangedListener { _, destination, arguments ->
         showBackButton.value = navController.previousBackStackEntry != null
@@ -136,7 +137,7 @@ fun App(navController: NavHostController) {
                 navigationIcon = {
                     if (showBackButton.value) {
                         IconButton(onClick = {
-                            navController.navigateUp()
+                            onBackPressedDispatcher?.onBackPressed()
                         }) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -184,7 +185,7 @@ fun AppNavigation(modifier: Modifier, navController: NavHostController) {
                     Log.d("Main", id.toString())
                     val idLong = id?.toLong()
                     val menuItem: MenuDto = viewModel.menu.value.find { it.id == idLong } !!
-                    MenuItem(menuItem = menuItem)
+                    MenuItem(viewModel, menuItem = menuItem)
                 }
             }
             navigation(
