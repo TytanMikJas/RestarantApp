@@ -3,7 +3,9 @@ package com.example.androidapp.Client.LandingPage
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -50,6 +52,7 @@ fun AboutTeam(descriptions: List<String>) {
             )
             TeamElement(image = R.drawable.pudzian, signature = "Mariusz Pudzianowski", description = descriptions[0])
             TeamElement(image = R.drawable.pudzian2, signature = "Mariusz Pudzianowski", description = descriptions[1])
+            Spacer(modifier = Modifier.height(80.dp))
         }
     }
 }

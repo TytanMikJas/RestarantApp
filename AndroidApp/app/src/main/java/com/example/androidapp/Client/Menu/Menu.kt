@@ -65,7 +65,7 @@ fun Menu(navController: NavController) {
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
-    Column {
+    Column (modifier = Modifier.padding(bottom = if(isSomethingInCart) 50.dp else 0.dp)) {
         ScrollableTabRow(selectedTabIndex = selectedTabIndex, edgePadding = 16.dp) {
             menuCategories.forEachIndexed { index, title ->
                 Tab(
@@ -108,6 +108,7 @@ fun Menu(navController: NavController) {
                 }
             }
         }
+
     }
         if(isSomethingInCart){
             Button(
