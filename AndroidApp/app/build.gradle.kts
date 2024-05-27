@@ -67,6 +67,7 @@ dependencies {
     implementation ("androidx.compose.material:material-icons-core:1.6.7")
     implementation ("androidx.compose.material:material-icons-extended-android:1.6.7")
     testImplementation(libs.junit)
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
@@ -78,4 +79,5 @@ dependencies {
     implementation ("io.socket:socket.io-client:2.1.0") {
 
     }
+
 }
