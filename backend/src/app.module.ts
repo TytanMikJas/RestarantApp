@@ -3,6 +3,8 @@ import OrderModule from './modules/order/order.module';
 import MenuModule from './modules/menu/menu.module';
 import { join } from 'path';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { PrismaClient } from '@prisma/client';
+import { PrismaModule } from './modules/prisma/prisma.module';
 
 @Module({
   imports: [
@@ -12,8 +14,13 @@ import { ServeStaticModule } from '@nestjs/serve-static';
       renderPath: '/public',
     }),
     MenuModule,
+    PrismaModule,
   ],
-
-  providers: [],
+  providers: [
+    {
+      provide: PrismaClient,
+      useValue: new PrismaClient(),
+    },
+  ],
 })
 export class AppModule {}

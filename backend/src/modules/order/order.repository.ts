@@ -5,11 +5,7 @@ import CreateOrderDto from './dto/place-order.dto';
 
 @Injectable()
 export default class OrderRepository {
-  private prisma: PrismaClient;
-
-  constructor() {
-    this.prisma = new PrismaClient();
-  }
+  constructor(private readonly prisma: PrismaClient) {}
 
   async getOrderById(orderId: number): Promise<OrderDto> {
     return await this.prisma.order.findUnique({
@@ -34,7 +30,7 @@ export default class OrderRepository {
   }
 
   async createOrder(data: CreateOrderDto, userId: any): Promise<OrderDto> {
-    console.log(typeof data)
+    console.log(typeof data);
     return await this.prisma.order.create({
       data: {
         tableId: userId,
@@ -54,9 +50,12 @@ export default class OrderRepository {
 
   async getLatestOrder(userId: any): Promise<OrderDto> {
     return this.prisma.order.findFirst({
-      where: { tableId: userId, status: {
-        not: Status.ARCHIVED,
-      }},
+      where: {
+        tableId: userId,
+        status: {
+          not: Status.ARCHIVED,
+        },
+      },
       orderBy: { createdAt: 'asc' },
       include: {
         items: { include: { menuItem: { include: { attachments: true } } } },

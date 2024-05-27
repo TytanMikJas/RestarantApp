@@ -4,9 +4,7 @@ import { MenuDto } from './dto/menu.dto';
 
 @Injectable()
 export default class MenuRepository {
-  private prisma: PrismaClient;
-  constructor() {
-    this.prisma = new PrismaClient();
+  constructor(private readonly prisma: PrismaClient) {
   }
 
   async getAll(): Promise<MenuDto[]> {

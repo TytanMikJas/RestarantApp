@@ -9,7 +9,9 @@ export default class OrderService {
   constructor(private readonly orderRepository: OrderRepository) {}
 
   async nextOrderStatus(orderId: number): Promise<OrderDto> {
+    console.log(orderId);
     const order = await this.orderRepository.getOrderById(orderId);
+    console.log(order, "after orderID");
     const nextOrderStatus = this.nextStatus(order.status);
     return await this.orderRepository.updateOrder(order, nextOrderStatus);
   }

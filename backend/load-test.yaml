@@ -1,0 +1,38 @@
+config:
+  # This is a test server run by team Artillery
+  # It's designed to be highly scalable
+  target: http://127.0.0.1:30437
+  phases:
+    - duration: 5
+      arrivalRate: 1
+      rampTo: 5
+      name: Warm up phase
+    - duration: 5
+      arrivalRate: 5
+      rampTo: 10
+      name: Ramp up phase
+    - duration: 5
+      arrivalRate: 10
+      name: Sustained max load
+      rampTo: 10
+
+  # Load & configure a couple of useful plugins
+  # https://docs.art/reference/extensions
+  plugins:
+    ensure: {}
+    apdex: {}
+    metrics-by-endpoint: {}
+  apdex:
+    threshold: 1000
+  ensure:
+    thresholds:
+      - http.response_time.p95: 1000
+scenarios:
+  - flow:
+      - loop:
+          - get:
+              url: '/menu'
+              expect:
+                statusCode: 200
+                json: 'length > 0'  
+        count: 100

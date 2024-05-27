@@ -1,6 +1,6 @@
 import { $Enums } from '@prisma/client';
 
-export interface MenuDto {
+export class MenuDto {
   id: number;
   name: string;
   description: string;
